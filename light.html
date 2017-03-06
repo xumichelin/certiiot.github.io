@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Webduino</title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://webduinoio.github.io/webduino-blockly/webduino-blockly.js"></script>
+<script>
+/*$.ajax({
+	url:'http://certitrainingiot.azurewebsites.net/api/light/',
+	dataType:"json",
+	type:'GET',
+	success: function(data){
+		for(var i = 0; i <data.length;i++)
+		{
+			document.getElementById("tbody").innerHTML+= "<tr><th>"+data[i]["Id"]+"</th><td>"+data[i]["value"]+"</td><td>"+data[i]["date"]+"</td><td>"+data[i]["time"]+"</td></tr>";
+		}
+		}
+	})
+	*/
+var photocell;
+var value;
+var led;
+var date;
+var time;
+
+boardReady('pJnK', function (board) {
+  board.samplingInterval = 1000;
+  photocell = getPhotocell(board, 3);
+   led = getLed(board, 10);
+  photocell.on(function(val){
+	 
+	value = Math.round(((val - (0.007)) * (1/((0.1407)-(0.007)))) * ((100)-(0)) + (0));
+	
+
+    document.getElementById("demo-area-01-show").innerHTML =value;
+	
+/*		var d = new Date();
+		date= d.getFullYear()+"-"+(Number(d.getMonth())+Number(1))+"-"+d.getDate();
+	time = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+	$.ajax({
+		url:'http://certitrainingiot.azurewebsites.net/api/light/',
+		type:"POST",
+		 contentType:"application/x-www-form-urlencoded",
+		data:{'value':value,'date':date,'time':time},
+		dataType: 'json',
+		success:function(){
+			$.ajax({
+				url:'http://certitrainingiot.azurewebsites.net/api/light/',
+				type:'GET',
+				dataType:"json",
+				success: function(data){
+					document.getElementById("tbody").innerHTML = "";
+							for(var i = 0; i <data.length;i++)
+		{
+			document.getElementById("tbody").innerHTML+= "<tr><th>"+data[i]["Id"]+"</th><td>"+data[i]["value"]+"</td><td>"+data[i]["date"]+"</td><td>"+data[i]["time"]+"</td></tr>";
+		}
+					}
+				
+				})
+			
+			},
+		error: function(){}
+	});
+*/
+	if(value<20)
+	{
+		led.on();
+	}
+	else
+	{
+		led.off();
+	}
+	  
+  });	
+
+});
+</script>
+</head>
+
+<body>
+<div data-role="page">
+<div data-role="header">
+<a href="index.html" data-ajax="false">返回</a>
+	<h3>iot相關運用</h3>
+</div>
+<div data-role="content">
+<span id="demo-area-01-show"></span>
+<!--<table data-role="table" class="ui-responsive table-stroke">
+	<thead>
+    <tr >
+    <th>id</th>
+	<th data-priority="1">數值</th>
+	<th data-priority="5">日期</th>
+   	<th data-priority="5">時間</th>
+    </tr>
+    </thead>
+    <tbody id="tbody">   
+    </tbody>
+</table>
+-->
+</div>
+<div data-role="footer" data-position="fixed">
+<h3>Design by 建國資管系</h3>
+</div>
+</div>
+</body>
+</html>

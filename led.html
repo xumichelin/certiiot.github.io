@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Webduino</title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://webduinoio.github.io/webduino-blockly/webduino-blockly.js"></script>
+<script>
+var rled;
+var yled;
+var gled;
+var r;
+var y;
+var g;
+var val;
+var total;
+var l="on";
+boardReady('pJnK', function (board) {
+  board.samplingInterval = 20;
+  rled = getLed(board, 6);
+  yled = getLed(board, 7);
+  gled = getLed(board, 8);
+  	setInterval(function(){
+    if (l == "on") {
+      l = "off";
+	  
+       r = document.getElementById("redled").value;
+	   y = document.getElementById("yellowled").value;
+	   g = document.getElementById("greenled").value;		
+	   val = 1;
+
+    } else {  
+		if(val<=Number(r))
+		{
+			
+			rled.on();
+			yled.off();
+			gled.off();
+
+			val+=1;
+		}
+		else if(val<=Number(r)+Number(g))
+		{
+			
+			rled.off();
+			yled.off();
+			gled.on();
+			val+=1;
+		}
+		else if(val<=Number(r)+Number(g)+Number(y))
+		{	
+			
+			rled.off();
+			yled.on();
+			gled.off();
+			if(val==Number(r)+Number(g)+Number(y))
+			{
+				val=1;
+				
+			}
+			else{
+			val+=1;
+			}
+		}
+		
+		
+    }
+  }, 1000);
+ 
+});
+function fn(l){
+  	setInterval(function(){
+    if (l == "on") {
+      l = "off";
+	   r = document.getElementById("redled").value;
+	   y = document.getElementById("yellowled").value;
+	   g = document.getElementById("greenled").value;		
+	   val = 1;
+
+    } else {  
+		if(val<=Number(r))
+		{
+			
+			rled.on();
+			yled.off();
+			gled.off();
+
+			val+=1;
+		}
+		else if(val<=Number(r)+Number(g))
+		{
+		
+			rled.off();
+			yled.off();
+			gled.on();
+			val+=1;
+		}
+		else if(val<=Number(r)+Number(g)+Number(y))
+		{	
+			
+			rled.off();
+			yled.on();
+			gled.off();
+			if(val==Number(r)+Number(g)+Number(y))
+			{
+				val=1;
+				
+			}
+			else{
+			val+=1;
+			}
+		}
+		
+		
+    }
+  }, 1000);
+}
+function close()
+{
+	rled.off();
+	gled.off();
+	yled.off();
+}
+</script>
+</head>
+
+<body onunload="close()">
+<div data-role="page">
+<div data-role="header">
+<a href="index.html" data-ajax="false">返回</a>
+	<h3>iot相關運用</h3>
+</div>
+<div data-role="content">
+<p>紅燈:<input type="number" value="5" id="redled"></p>
+<p>黃燈:<input type="number" value="3" id="yellowled"></p>
+<p>綠燈:<input type="number" value="10" id="greenled"></p>
+<input type="button" value="設定" onclick="fn('on')">
+</div>
+
+<div data-role="footer" data-position="fixed">
+<h3>Design by 建國資管系</h3>
+</div>
+</div>
+</body>
+</html>
